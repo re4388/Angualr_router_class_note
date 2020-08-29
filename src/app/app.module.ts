@@ -19,6 +19,7 @@ import { AnimationComponent } from './utilities/animation/animation.component';
 import { BorderComponent } from './utilities/border/border.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LoginComponent } from './login/login.component';
     BorderComponent,
     LayoutComponent,
     LoginComponent,
+    RegisterComponent,
 
   ],
   imports: [
