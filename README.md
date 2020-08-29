@@ -2,10 +2,10 @@
 - 100 pages is one page (index.html / app component) in SPA => how? => router mechanism
 - Only app component keep live in all Angular, other component，就是換component
 - no wild card in real word -> hard to debug
-    - the default active css class functionality will active includ. parent and selected child note, and you can deactive
+    - the default active css class functionality will active include. parent and selected child note, and you can de-active
     - hash router and original route is nearly no dif for user... and SEO is a better for not hash, and sometimes, we can't rewrite url..we have to use hash route
     - use `a-router` intelligence to avoid type wrong word
-    - suggest not to use `auto-save` in vscode, due to its conti. building and sometimes mess up the build process (but I prefer autosave and I will constantly rebuild)
+    - suggest not to use `auto-save` in vscode, due to its continous. building and sometimes mess up the build process (but I prefer auto-save and I will constantly rebuild)
 - state
     - 路由就是狀態管理
     - 類別裡面的屬性就是資料就是狀態
@@ -15,7 +15,7 @@
     - 這個機制就是管理 網址路徑 和 元件 的關係
     - 利用網址來記錄狀態
     - 其他記錄方式
-        - localstorage, sessionstorage, indexDB....打開你的applicaiton in dev tool, 很多存狀態的方法，當然也可以放 text, 或是放server
+        - localStorage, sessionStorage, indexDB....打開你的 application in dev tool, 很多存狀態的方法，當然也可以放 text, 或是放server
             - 沒事不要做狀態管理，KISS
             - 不然就是客戶說要offline...
             - HTML5很多技術可以用
