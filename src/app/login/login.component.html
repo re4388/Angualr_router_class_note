@@ -18,7 +18,7 @@
 
 
 
-<!-- form class begin -->
+                  <!-- <!-- Begin of class part --> -->
 
                   <pre>
                   data = {{ data | json }}
@@ -36,22 +36,17 @@
                   form.errors = {{ form.errors | json }}
                   </pre>
 
-                  <form
-                  class="user"
-                  #form="ngForm"
-                  (ngSubmit)="doSubmit(form)">
+                  <form class="user" #form="ngForm" (ngSubmit)="doSubmit(form)">
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                        aria-describedby="emailHelp" placeholder="Enter Email Address..." [(ngModel)]="data.email"
-                        #mEmail="ngModel" name="email" required email>
-
-                      <!-- validator  -->
-
-                      <ul *ngIf="mEmail.invalid">
-                        <li *ngIf="mEmail.errors.required">請輸入電子郵件信箱 </li>
+                        aria-describedby="emailHelp" placeholder="Enter Email Address..."
+                        [class.is-invalid]="mEmail.dirty && mEmail.invalid" [(ngModel)]="data.email" name="email"
+                        #mEmail="ngModel" required email>
+                      <ul [class.invalid-feedback]="mEmail.touched && mEmail.invalid"
+                        *ngIf="mEmail.touched && mEmail.invalid">
+                        <li *ngIf="mEmail.errors.required">請輸入電子郵件信箱</li>
                         <li *ngIf="mEmail.errors.email">請輸入合法的 E-mail 格式</li>
                       </ul>
-
 
                       <pre>mEmail.value = {{ mEmail.value }}
                       mEmail.status = {{ mEmail.status }}
@@ -67,27 +62,30 @@
                       </pre>
                     </div>
 
-                    <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword"
-                        placeholder="Password" [(ngModel)]="data.password" #mPassword="ngModel" name="password">
-                    </div>
+                    <ng-container
+                    ngModelGroup="pwAndRememberMe"
+                    #mPW="ngModelGroup">
 
-
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                        <input type="checkbox" class="custom-control-input" id="customCheck"
-                          [(ngModel)]="data.rememberMe" #mRememberMe="ngModel" name="rememberMe">
-                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                      <div class="form-group">
+                        <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+                          placeholder="Password" [(ngModel)]="data.password" #mPassword="ngModel" name="password">
                       </div>
-                    </div>
 
-                    <button
-                    type="submit"
-                    class="btn btn-primary btn-user btn-block">
+
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox small">
+                          <input type="checkbox" class="custom-control-input" id="customCheck"
+                            [(ngModel)]="data.rememberMe" #mRememberMe="ngModel" name="rememberMe">
+                          <label class="custom-control-label" for="customCheck">Remember Me</label>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <button type="submit" [disabled]="form.invalid" class="btn btn-primary btn-user btn-block">
                       Login
                     </button>
 
-
+                    <!-- end of class part -->
 
                     <hr>
                     <a href="index.html" class="btn btn-google btn-user btn-block">
