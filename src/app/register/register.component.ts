@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 
 @Component({
   templateUrl: './register.component.html',
@@ -9,7 +9,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   data: any = {
     firstName: 'Will',
     lastName: 'Huang',
-    email: 'doggy.huang@gmail.com',
+    emails: [
+      'd1@gmail.com',
+      'd2@gmail.com',
+      'd3@gmail.com',
+    ],
     password: '',
     repeatPassword: ''
   };
@@ -30,21 +34,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     // });
 
     this.form = this.fb.group({
-      firstName: this.fb.control('Will', {
+      firstName: this.fb.control('', {
         validators: [Validators.required],
         updateOn: 'blur'
       }),
-      lastName: this.fb.control('Huang', {
-        validators: [Validators.required, Validators.email]
+      lastName: this.fb.control('', {
+        validators: [Validators.required]
       }),
-      emails: this.fb.array([
-        this.fb.control('doggy.huang@gmail.com', {
-          validators: [Validators.required]
-        }),
-        this.fb.control('abc@example.com', {
-          validators: [Validators.required]
-        }),
-      ]),
+      emails: this.fb.array([]),
       password: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(6)]
       }),
@@ -52,6 +49,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
         validators: [Validators.required, Validators.minLength(6)]
       })
     });
+
+    this.form.setValidators(ComparePasswords('password', 'repeatPassword'));
+
+    for (const _ of this.data.emails) {
+      this.addNewEmail();
+    }
+
+    this.form.setValue(this.data);
 
   }
 
@@ -92,10 +97,39 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   addNewEmail(): void {
-    const emails = this.fa('emails');
-    emails.push(this.fb.control('', {
-      validators: [Validators.required, Validators.email]
-    }));
+    const email = this.fb.control('', {
+      updateOn: 'blur'
+    });
+
+    email.setValidators([
+      Validators.required,
+      Validators.email
+    ]);
+
+    // 設定欄位為 DISABLED 狀態
+    // email.disable();
+
+    this.fa('emails').push(email);
+  }
+
+  doReset(): void {
+    this.form.reset(this.data);
   }
 
 }
+
+function ComparePasswords(c1: string, c2: string): ValidatorFn {
+  return (fg: FormGroup): ValidationErrors => {
+    const p1 = fg.get(c1);
+    const p2 = fg.get(c2);
+
+    if (p1.value === p2.value) {
+      return null;
+    } else {
+      return {
+        comparePassword: true
+      };
+    }
+  };
+}
+
